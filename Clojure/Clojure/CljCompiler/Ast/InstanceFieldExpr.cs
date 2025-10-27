@@ -104,7 +104,7 @@ namespace clojure.lang.CljCompiler.Ast
             }
             else
             {
-                // We could convert this to a dynamic call-site
+                // TODO: We could convert this to a dynamic call-site
                 _target.Emit(RHC.Expression, objx, ilg);
                 ilg.Emit(OpCodes.Ldstr, _memberName);
                 ilg.Emit(OpCodes.Call, Compiler.Method_Reflector_GetInstanceFieldOrProperty);

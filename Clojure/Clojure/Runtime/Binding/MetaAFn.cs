@@ -1,11 +1,14 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿using Microsoft.Scripting.Actions.Calls;
+using System;
 using System.Dynamic;
-using Microsoft.Scripting.Actions.Calls;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace clojure.lang.Runtime.Binding
 {
+
+    // TODO: Is this actually being used anywhere?  (Other than the IDynamicMetaObjectProvider implementaion in AFn?
+    // If not, get rid of it and the IDynamicMetaObjectProvider implementation in AFn.
     class MetaAFn : DynamicMetaObject, IInferableInvokable
     {
 

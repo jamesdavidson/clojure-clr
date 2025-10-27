@@ -1419,7 +1419,7 @@ namespace clojure.lang
                 if (sym != null)
                 {
                     string sname = sym.Name;
-                    // (.substring s 2 5) => (. x substring 2 5)
+                    // (.substring s 2 5) => (. s substring 2 5)
                     // ns == null ensures that Class/.instanceMethod isn't expanded to . form
                     if (sname[0] == '.' && sym.Namespace == null)
                     {
@@ -1432,22 +1432,23 @@ namespace clojure.lang
                         // We need to make sure source information gets transferred
                         return MaybeTransferSourceInfo(PreserveTag(form, RT.listStar(DotSym, target, method, form.next().next())), form);
                     }
-                    //else if (NamesStaticMember(sym))
-                    //{
-                    //    Symbol target = Symbol.intern(sym.Namespace);
-                    //    Type t = HostExpr.MaybeType(target, false);
-                    //    if (t != null)
-                    //    {
-                    //        Symbol method = Symbol.intern(sym.Name);
-                    //        // We need to make sure source information gets transferred
-                    //        return MaybeTransferSourceInfo(PreserveTag(form, RT.listStar(Compiler.DotSym, target, method, form.next())), form);
-                    //    }
-                    //}
                     else
                     {
-                        // (x.substring 2 5) =>  (. x substring 2 5)
+                        // (s.substring 2 5) =>  (. s substring 2 5)
                         // also (package.class.name ... ) (. package.class name ... )
+
+                        // The comment above is in the JVM code.  It appears to no longer be valid.
+                        // Because the code following the next line is also commented out in the JVM code.
                         int index = sname.LastIndexOf('.');
+                        //if (idx > 0 && idx < sname.length() - 1)
+                        //{
+                        //    symbol target = symbol.intern(sname.substring(0, idx));
+                        //    symbol meth = symbol.intern(sname.substring(idx + 1));
+                        //    return rt.liststar(dot, target, meth, form.rest());
+                        //}
+                        //(stringbuilder. "foo") => (new stringbuilder "foo")	
+                        //else
+
                         if (index == sname.Length - 1)
                             // We need to make sure source information gets transferred
                             return MaybeTransferSourceInfo(RT.listStar(Compiler.NewSym, Symbol.intern(sname.Substring(0, index)), form.next()), form);

@@ -129,8 +129,6 @@ namespace clojure.lang.CljCompiler.Ast
                     PropertyInfo pinfo;
                     FieldInfo finfo;
 
-                    // TODO: Figure out if we want to handle the -propname otherwise.
-
                     bool isPropName = false;
                     Symbol memberSym = methodSym;
 
