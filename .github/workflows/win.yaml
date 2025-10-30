@@ -1,0 +1,31 @@
+name: win
+
+on:
+  push:
+    branches: [ "master" ]
+
+env:
+  X: "net6.0"
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup msbuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build and test
+        shell: powershell
+        run: |
+          msbuild build.proj -t:Test -p:TestTargetFramework=${{ env.X }} -p:Configuration=Release
+          msbuild build.proj -t:TestGen -p:TestTargetFramework=${{ env.X }} -p:Configuration=Release
+
+      # - name: Package
+      #   shell: powershell
+      #   run: |
+      #     cd Clojure
+      #     msbuild build.proj -t:ZipAll  -p:Configuration=Release
