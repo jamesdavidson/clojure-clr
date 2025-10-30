@@ -20,6 +20,7 @@ jobs:
 
       - name: Build and test
         shell: powershell
+        working-directory: ./Clojure
         run: |
           msbuild build.proj -t:Test -p:TestTargetFramework=${{ env.X }} -p:Configuration=Release
           msbuild build.proj -t:TestGen -p:TestTargetFramework=${{ env.X }} -p:Configuration=Release
